@@ -23,7 +23,7 @@ pipeline {
             steps {
                 cleanWs()    
                 echo 'Start cloning java repo'
-                sh "git clone https://github.com/Vdevdem/spring-petclinic.git"
+                sh 'git clone https://github.com/Vdevdem/spring-petclinic.git'
                 echo 'End cloning java repo'
 
             }
