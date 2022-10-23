@@ -20,16 +20,6 @@ pipeline {
             }
         }
 
-        stage('Cloning java repo') {
-            steps {
-                cleanWs()    
-                echo 'Start cloning java repo'
-                sh 'git clone https://github.com/Vdevdem/spring-petclinic.git'
-                echo 'End cloning java repo'
-
-            }
-        }
-
         stage('Create Docker Container') {
             steps {
                 echo 'Start creating Docker Container'
