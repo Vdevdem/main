@@ -1,8 +1,16 @@
 pipeline {
     agent any
-       
-       stages {
     
+    stages {
+    
+        stage('Git Checkout') {
+            steps {
+                echo 'Start git checkout'
+                git branch: 'main', url: 'https://github.com/Vdevdem/main.git'
+                echo 'End git checkout  - success'
+
+            }
+            }
         stage('UNIT Testing') {
             steps {
                 echo 'Start UNIT Testing'
@@ -16,6 +24,7 @@ pipeline {
             steps {
                 cleanWs()    
                 echo 'Start cloning java repo'
+                sh 'cd ..'
                 sh 'git clone https://github.com/Vdevdem/spring-petclinic.git'
                 echo 'End cloning java repo'
 
