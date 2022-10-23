@@ -1,9 +1,23 @@
 pipeline {
     agent any
-    options {
-        skipDefaultCheckout(true)
-    }
+    
     stages {
+    
+        stage('Git Checkout') {
+            steps {
+                echo 'Start git checkout'
+                git branch: 'main', url: 'https://github.com/Vdevdem/main.git'
+                echo 'End git checkout  - success'
+
+            }
+            
+        stage('UNIT Testing') {
+            steps {
+                echo 'Start UNIT Testing'
+                sh 'mvn test'
+                echo 'End UNIT Testing  - success'
+
+            }
 
         stage('Cloning java repo') {
             steps {
