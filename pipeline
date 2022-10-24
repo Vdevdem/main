@@ -9,17 +9,6 @@ pipeline {
                 git branch: 'main', url: 'https://github.com/Vdevdem/main.git'
                 echo 'End git checkout  - success'
 
-            }
-            }
-        stage('UNIT Testing') {
-            steps {
-                echo 'Start UNIT Testing'
-                sh 'mvn test'
-                echo 'End UNIT Testing  - success'
-
-            }
-        }
-
         stage('Create Docker Container') {
             steps {
                 echo 'Start creating Docker Container'
