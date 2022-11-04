@@ -11,7 +11,7 @@ def scan_type
                  description: 'Type of scan that is going to perform inside the container',
                  name: 'SCAN_TYPE'
 
-         string defaultValue: "http://prod",
+         string defaultValue: "http://44.212.16.46:8080/",
                  description: 'Target URL to scan',
                  name: 'TARGET'
 
@@ -46,10 +46,12 @@ def scan_type
              steps {
                  script {
                          echo "Pulling up last OWASP ZAP container --> Start"
-                         sh 'docker pull owasp/zap2docker-stable'
+                         bat """
+                         docker pull owasp/zap2docker-stable
+                         """
                          echo "Pulling up last VMS container --> End"
                          echo "Starting container --> Start"
-                         sh """
+                         bat """
                          docker run -dt --name owasp \
                          owasp/zap2docker-stable \
                          /bin/bash
@@ -65,7 +67,7 @@ def scan_type
              }
              steps {
                  script {
-                         sh """
+                         bat """
                              docker exec owasp \
                              mkdir /zap/wrk
                          """
@@ -81,7 +83,7 @@ def scan_type
                      echo "----> scan_type: $scan_type"
                      target = "${params.TARGET}"
                      if(scan_type == "Baseline"){
-                         sh """
+                         bat """
                              docker exec owasp \
                              zap-baseline.py \
                              -t $target \
@@ -91,7 +93,7 @@ def scan_type
                          """
                      }
                      else if(scan_type == "APIS"){
-                         sh """
+                         bat """
                              docker exec owasp \
                              zap-api-scan.py \
                              -t $target \
@@ -101,7 +103,7 @@ def scan_type
                          """
                      }
                      else if(scan_type == "Full"){
-                         sh """
+                         bat """
                              docker exec owasp \
                              zap-full-scan.py \
                              -t $target \
@@ -119,9 +121,9 @@ def scan_type
          stage('Copy Report to Workspace'){
              steps {
                  script {
-                     sh '''
-                         docker cp owasp:/zap/wrk/report.xml ${WORKSPACE}/report.xml
-                         docker cp owasp:/zap/wrk/report.html ${WORKSPACE}/report.html
+                     bat '''
+                         docker cp owasp:/zap/wrk/report.xml C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\DAST\\report.xml
+                         docker cp owasp:/zap/wrk/report.html C:\\ProgramData\\Jenkins\\.jenkins\\workspace\\DAST\\report.html
 
                      '''
                  }
@@ -131,7 +133,7 @@ def scan_type
      post {
              always {
                  echo "Removing container"
-                 sh '''
+                 bat '''
                      docker stop owasp
                      docker rm owasp
                  '''
