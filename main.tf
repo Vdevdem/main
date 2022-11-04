@@ -26,38 +26,38 @@ resource "aws_network_interface" "multi-ip" {
   private_ips = ["10.0.0.10", "10.0.0.11", "10.0.0.12"]
 }
 
-resource "aws_eip" "ProdNIC" {
+resource "aws_eip" "DeployN" {
   vpc                       = true
   network_interface         = aws_network_interface.multi-ip.id
   associate_with_private_ip = "10.0.0.10"
 }
 
-resource "aws_eip" "JenkinsNIC" {
+resource "aws_eip" "JenkinsN" {
   vpc                       = true
   network_interface         = aws_network_interface.multi-ip.id
   associate_with_private_ip = "10.0.0.11"
 }
 
-resource "aws_eip" "DTRNIC" {
+resource "aws_eip" "ArtifactoryN" {
   vpc                       = true
   network_interface         = aws_network_interface.multi-ip.id
   associate_with_private_ip = "10.0.0.12"
 }
 
-resource "aws_instance" "Prod" {
+resource "aws_instance" "Deploy" {
   # eu-west-2
   ami           = "ami-0caef02b518350c8b"
-  instance_type = "t2.micro"
+  instance_type = "t2.small"
 }
 
 resource "aws_instance" "Jenkins" {
   # eu-west-2
   ami           = "ami-0caef02b518350c8b"
-  instance_type = "t2.micro"
+  instance_type = "t2.small"
 }
 
-resource "aws_instance" "DTR" {
+resource "aws_instance" "Artifactory" {
   # eu-west-2
   ami           = "ami-0caef02b518350c8b"
-  instance_type = "t2.micro"
+  instance_type = "t2.small"
 }
